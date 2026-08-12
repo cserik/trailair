@@ -1,0 +1,16 @@
+name: fitness-gate
+# NOTE (brownfield installs): if this project already has a CI workflow, do NOT
+# add this file alongside it — that creates two competing definitions of "green"
+# and runs the tests twice. Instead, add `bash scripts/eval.sh gates` as a step
+# in the EXISTING workflow, making fitness.yaml the single definition.
+on: [pull_request]
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Add your project's setup steps here (language toolchain, deps).
+      - name: Run gates
+        run: bash scripts/eval.sh gates
+      - name: Run metrics (informational)
+        run: bash scripts/eval.sh metrics || true

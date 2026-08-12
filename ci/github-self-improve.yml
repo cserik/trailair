@@ -1,0 +1,34 @@
+name: self-improve
+on:
+  schedule:
+    - cron: "0 2 * * 1-5"   # weekday nights, 02:00 UTC
+  workflow_dispatch: {}      # manual trigger
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  improve:
+    runs-on: ubuntu-latest
+    steps:
+      # PRs created with the default GITHUB_TOKEN do NOT trigger on:pull_request
+      # workflows (GitHub anti-recursion rule) — auto PRs would arrive with NO
+      # checks, breaking the trust model exactly where it matters most. Use a
+      # GitHub App token so the fitness gate runs on agent-authored PRs.
+      # Setup: create a repo-scoped GitHub App, store APP_ID + APP_PRIVATE_KEY
+      # as secrets. See docs/design.md.
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
+      - name: Run improve loop
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: bash scripts/agent.sh
+      # The agent opens the PR itself via `gh` using GH_TOKEN (the App token).
+      # Nothing in this workflow merges anything.
