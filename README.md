@@ -1,5 +1,7 @@
 # trailair
 
+![teaser](trailair.png)
+
 A thin, runtime-agnostic **agent contract** you bolt onto any project — greenfield or brownfield.
 
 No SDK. No vendor lock. No dependencies. Just markdown playbooks, git, and CI. Bring your own coding agent (Claude Code, Codex, Cursor, aider, anything that can read files and run shell commands).
