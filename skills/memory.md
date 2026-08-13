@@ -13,6 +13,11 @@ Keep the agent's context small, current, and trustworthy.
 
 ## Rules
 
-- Memory records facts and decisions, not hopes ("TODO: someday…" goes to the backlog).
+- Memory records facts and decisions, not hopes ("TODO: someday…" belongs in an issue).
 - When compacting, prefer deleting to summarizing — stale summaries lie.
 - After any merged PR that changes structure or conventions: update map.md in that PR.
+
+## When not to use this skill
+
+Mid-task. Compacting memory while implementing a feature loses the thread and
+puts unrelated churn in the PR. Do it between tasks, in its own commit.

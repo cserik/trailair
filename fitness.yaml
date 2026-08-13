@@ -1,5 +1,5 @@
 # fitness.yaml — what "better" means in THIS project.
-# This copy is agentloop's OWN (the framework repo is self-bootstrapped).
+# This copy is trailair's OWN (the framework repo is self-bootstrapped).
 # When installed into another project, skills/bootstrap.md rewrites this file.
 #
 # CONSTRAINT: `run:` values must be single-line commands (quoted). YAML block
@@ -7,19 +7,19 @@
 # Wrap anything longer in a script under scripts/ and call that.
 version: 1
 
-# Gates: must ALWAYS pass. The keep-or-revert boundary.
+# Gates: must ALWAYS pass. Nothing merges past a red gate.
+# Bootstrap MUST emit a test gate and a coverage-floor gate for every project
+# (see skills/bootstrap.md step 3). This repo is all shell and markdown, so its
+# test gate is selftest.sh; "coverage" here means every executable file is
+# exercised, which selftest and the lint workflow together enforce.
 gates:
   - name: selftest
     run: "bash scripts/selftest.sh"   # proves every enforcement mechanism can fail
 
-# Metrics: optimized by the improve loop. Direction: lower | higher.
+# Metrics: reported, never enforced. Informational only — they appear in CI
+# output and PR descriptions so humans can see drift. Direction: lower | higher.
 # Metrics must be CHEAP and must not re-run the gates.
 metrics:
   - name: skills_doc_lines        # framework self-metric: smaller playbooks win
     run: "cat skills/*.md | wc -l"
     direction: lower
-
-# Budgets for the improve loop.
-budget:
-  minutes_per_run: 15
-  max_mutations_per_run: 5
