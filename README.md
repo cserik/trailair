@@ -1,8 +1,5 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="trailair-dark.png">
-    <img src="trailair.png" alt="trailair logo" width="200">
-  </picture>
+  <img src="trailair.png" alt="trailair logo" width="200">
 </p>
 
 <h1 align="center">trailair</h1>
