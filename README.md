@@ -29,27 +29,42 @@ Coding agents are capable but stateless and unaccountable. trailair fixes both w
 
 ## Quickstart
 
-1. Copy trailair into your project root:
+1. Copy the contract into your project root — the seven paths, and nothing else:
    ```bash
-   tar -C /path/to/trailair --exclude='./.git' -cf - . | tar -xf -
+   tar -C /path/to/trailair -cf - \
+       ./AGENTS.md ./fitness.yaml ./skills ./scripts ./hooks ./ci ./context \
+     | tar -xf -
    ```
+   Name the paths. `tar -cf - .` would also carry trailair's own `README.md`,
+   `LICENSE`, `CONTRIBUTING.md`, and `.gitignore`, and tar overwrites on
+   extract — on an existing project that silently replaces yours.
    (Don't use Finder drag or `cp trailair/*` — both silently drop dotfiles.)
-2. Wire it in:
+2. Clear the two files that arrive describing trailair rather than you:
+   `context/decisions.md` (its decision log — empty it) and, if you use Claude
+   Code, add a `CLAUDE.md` pointing at `AGENTS.md`. `context/map.md` and
+   `fitness.yaml` you can leave; bootstrap regenerates both.
+3. Wire it in:
    ```bash
    scripts/install.sh
    ```
    This installs the pre-commit gate and the CI workflow. If your project already
    has CI, it will refuse rather than create a second definition of "green" —
    re-run with `--no-ci` and add `bash scripts/eval.sh gates` to your existing workflow.
-3. Point your agent at `AGENTS.md` and say: *"bootstrap this project"*.
+   Either way, verify the gate is wired exactly once:
+   ```bash
+   grep -rl "eval.sh gates" .github/workflows/ | wc -l   # must be 1
+   ```
+4. Point your agent at `AGENTS.md` and say: *"bootstrap this project"*.
    - Bootstrap inventories the codebase, writes `context/map.md`, and drafts
      `fitness.yaml` for your approval — including a mandatory test gate and a
      coverage floor pinned to wherever you are today.
-4. On an existing codebase, say: *"audit this project"*.
+   - No test runner in the project? Bootstrap stops and asks rather than shipping
+     an empty gate. That is the one thing that will block adoption; nothing else here does.
+5. On an existing codebase, say: *"audit this project"*.
    - Audit is read-only. It writes a prioritized, evidence-cited findings list to
      `context/findings.md` and stops. You pick what matters; each pick becomes
      its own small PR. The agent never decides on its own what to fix.
-5. Ask for work normally: *"add rate limiting to the API"*. The feature skill
+6. Ask for work normally: *"add rate limiting to the API"*. The feature skill
    researches, plans, decomposes, and works branch-per-task.
 
 ## Layout

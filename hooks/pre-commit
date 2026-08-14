@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-# Universal git hook: never commit a broken gate. Install: hooks/install.sh
+# Universal git hook: never commit a broken gate. Install: scripts/install.sh
 exec "$(git rev-parse --show-toplevel)/scripts/eval.sh" gates
