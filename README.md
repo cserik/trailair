@@ -1,8 +1,13 @@
-# trailair
+<p align="center">
+  <img src="trailair.png" alt="trailair logo" width="120">
+</p>
 
-![teaser](trailair.png)
+<h1 align="center">trailair</h1>
 
-A thin, runtime-agnostic **agent contract** you bolt onto any project — greenfield or brownfield.
+<p align="center">
+  A thin, runtime-agnostic <b>agent contract</b> you bolt onto any project —
+  greenfield or brownfield.
+</p>
 
 No SDK. No vendor lock. No dependencies. Just markdown playbooks, git, and CI. Bring your own coding agent (Claude Code, Codex, Cursor, aider, anything that can read files and run shell commands).
 
@@ -25,12 +30,12 @@ Coding agents are capable but stateless and unaccountable. trailair fixes both w
 ## Quickstart
 
 1. Copy trailair into your project root:
-   ```
+   ```bash
    tar -C /path/to/trailair --exclude='./.git' -cf - . | tar -xf -
    ```
    (Don't use Finder drag or `cp trailair/*` — both silently drop dotfiles.)
 2. Wire it in:
-   ```
+   ```bash
    scripts/install.sh
    ```
    This installs the pre-commit gate and the CI workflow. If your project already
@@ -52,11 +57,12 @@ Coding agents are capable but stateless and unaccountable. trailair fixes both w
 ```
 AGENTS.md            entrypoint for any agent (CLAUDE.md points here)
 fitness.yaml         what "green" means — gates (enforced) + metrics (reported)
-skills/              playbooks: bootstrap, feature, memory
+skills/              playbooks: bootstrap, audit, feature, memory
 scripts/             install.sh (wiring), eval.sh (gate runner), selftest.sh
 hooks/               pre-commit — never commit a broken gate
 context/             map.md, decisions.md, memory.md — the agent's working memory
 ci/                  CI templates, installed into .github/workflows/ by install.sh
+docs/                design.md — why the contract is shaped the way it is
 ```
 
 ## Principles
@@ -72,4 +78,6 @@ ci/                  CI templates, installed into .github/workflows/ by install.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). PRs from humans and agents are equally welcome — both go through the same fitness gate.
 
-MIT licensed.
+## License
+
+MIT — see [LICENSE](LICENSE).
